@@ -1,0 +1,155 @@
+# this is swagger YAML file
+#
+swagger: '2.0'
+#The info object will be refined later.
+info:
+  title: Service Title Name
+  description: Detail about the service
+  version: 1.0.0
+  contact:
+    name: API Support team
+    url: www.service-web-site.com
+    email: service-support@abc.com
+# the domain of the service
+#host: api.uber.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /api/service/v1
+produces:
+  - application/json
+
+paths:
+  /time:
+    get:
+      tags:
+        - Time
+      responses:
+        200:
+          $ref: "#/responses/TimeSummary"
+        403:
+          $ref: "#/responses/Forbidden"
+        401:
+          $ref: "#/responses/UnAuthorized"
+        default:
+          $ref: "#/responses/default"
+      summary: Get current server time under consideration.
+      operationId: getTime
+      description: 
+        Get the most recent server time.
+
+parameters:
+  ##### common #######
+  
+  orderParam:
+    name: order
+    in: query
+    description: "Wheather ordering is ascending or descending"
+    required: false
+    type: string
+    default: des
+    enum:
+       - asc
+       - des
+  
+  entityIdParam:
+    name: entityId
+    in: query
+    description: "unique id of the entity"
+    required: true
+    type: string
+    format: string
+  
+  entityNameParam:
+    name: entityName
+    in: query
+    description: "Entity Name which is used to get the issue"
+    required: true
+    type: string
+    format: string
+  
+  issueIdParam:
+    name: issueId
+    in: path
+    required: true
+    type: string
+    format: string
+    description: "Unique identifier for issue id."
+
+responses:
+  TimeSummary:
+    description: The most recent assurance server time with client or device data
+    schema:
+      $ref: '#/definitions/TimeSummary'
+  Forbidden:
+    description: This user is forbidden to access this resource.
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+  UnAuthorized:
+    description: This user is not authorized to access this respurce.
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+
+definitions:
+  
+  BaseObject:
+    type: object
+    properties:
+      version:
+        type: string
+        default: "1.0"
+        description: The version of the returned representation.
+  
+  #### Error #######
+  Error:
+    type: object
+    properties:
+      errorCode:
+        type: integer
+        format: int32
+        description: Code of the error
+      message:
+        type: string
+        description: Brief message about the error condition
+      detail:
+        type: string
+        description: A more detailed explanation of the error condition the parameter and its value, that caused the condition and why it caused it.
+  
+  ErrorResponse:
+    type: object
+    properties:
+      response:
+        $ref: '#/definitions/Error'
+  
+  ######### Time ###########
+  TimeSummaryInfo:
+    type: object
+    properties:
+      timeType:
+        type: string
+        description: type of content for which the time applies to
+        default: GLOBAL
+        enum:
+          - GLOBAL
+          - CLIENT
+          - NETWORK
+          - CURRENT
+      time:
+        type: integer
+        format: int64
+        description: the server time
+  
+  TimeSummary:
+    allOf:
+      - $ref: "#/definitions/BaseObject"
+      - type: object
+        properties:
+          response:
+            type: array
+            items: 
+              $ref: "#/definitions/TimeSummaryInfo"

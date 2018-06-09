@@ -1,8 +1,8 @@
 
-$ref: './baseobject.yaml'
+$ref: '/swagger/definitions/baseobject.yaml'
 
 #### Error #######
-$ref: './errors.yaml'
+$ref: '/swagger/definitions/errors.yaml'
 
 ######### Time ###########
-$ref: './time.yaml'
+$ref: '/swagger/definitions/time.yaml'

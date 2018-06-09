@@ -3,7 +3,7 @@
 swagger: '2.0'
 #The info object will be refined later.
 info:
-  $ref: ./info/index.yaml
+  $ref: /swagger/info/index.yaml
 # the domain of the service
 #host: api.uber.com
 # array of all schemes that your API supports
@@ -15,13 +15,13 @@ produces:
   - application/json
 
 paths:
-  $ref: ./paths/index.yaml
+  $ref: /swagger/paths/index.yaml
 
 parameters:
-  $ref: ./parameters/index.yaml
+  $ref: /swagger/parameters/index.yaml
 
 responses:
-  $ref: ./responses/index.yaml
+  $ref: /swagger/responses/index.yaml
 
 definitions:
-  $ref: ./definitions/index.yaml
+  $ref: /swagger/definitions/index.yaml

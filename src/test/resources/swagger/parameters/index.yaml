@@ -1,6 +1,6 @@
 ##### common #######
 
-$ref: './common.yaml'
+$ref: '/swagger/parameters/common.yaml'
 
 
 
